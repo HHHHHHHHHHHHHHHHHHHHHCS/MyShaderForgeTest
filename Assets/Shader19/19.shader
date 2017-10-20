@@ -49,8 +49,7 @@ Shader "Shader Forge/19" {
                 o.uv0 = v.texcoord0;
                 o.normalDir = UnityObjectToWorldNormal(v.normal);
                 float4 node_8865 = _Time + _TimeEditor;
-                float node_9056 = (o.uv0.g-((_node_1631*2.0)+(-1.0)));
-                float node_228 = saturate((frac(node_8865.r)*node_9056));
+                float node_228 = saturate((frac(node_8865.r)*(o.uv0.g-((_node_1631*2.0)+(-1.0)))));
                 v.vertex.xyz += float3(node_228,node_228,node_228);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
                 float3 lightColor = _LightColor0.rgb;
@@ -69,14 +68,10 @@ Shader "Shader Forge/19" {
                 float attenuation = LIGHT_ATTENUATION(i);
 ////// Emissive:
                 float4 node_8865 = _Time + _TimeEditor;
-                float node_9056 = (i.uv0.g-((_node_1631*2.0)+(-1.0)));
-                float node_228 = saturate((frac(node_8865.r)*node_9056));
+                float node_228 = saturate((frac(node_8865.r)*(i.uv0.g-((_node_1631*2.0)+(-1.0)))));
                 float4 _node_2550_var = tex2D(_node_2550,TRANSFORM_TEX(i.uv0, _node_2550));
                 float3 emissive = (node_228*_node_2550_var.rgb);
-                float node_4820 = max(0,dot(lightDirection,i.normalDir));
-                float node_2099 = max(0,dot(lightDirection,viewReflectDirection));
-                float3 node_7164 = (_LightColor0.rgb*(attenuation*(node_4820+node_2099)*0.5));
-                float3 finalColor = emissive + node_7164;
+                float3 finalColor = emissive + (_LightColor0.rgb*(attenuation*(max(0,dot(lightDirection,i.normalDir))+max(0,dot(lightDirection,viewReflectDirection)))*0.5));
                 return fixed4(finalColor,1);
             }
             ENDCG
@@ -119,8 +114,7 @@ Shader "Shader Forge/19" {
                 o.uv0 = v.texcoord0;
                 o.normalDir = UnityObjectToWorldNormal(v.normal);
                 float4 node_8865 = _Time + _TimeEditor;
-                float node_9056 = (o.uv0.g-((_node_1631*2.0)+(-1.0)));
-                float node_228 = saturate((frac(node_8865.r)*node_9056));
+                float node_228 = saturate((frac(node_8865.r)*(o.uv0.g-((_node_1631*2.0)+(-1.0)))));
                 v.vertex.xyz += float3(node_228,node_228,node_228);
                 o.posWorld = mul(unity_ObjectToWorld, v.vertex);
                 float3 lightColor = _LightColor0.rgb;
@@ -137,10 +131,7 @@ Shader "Shader Forge/19" {
                 float3 lightColor = _LightColor0.rgb;
 ////// Lighting:
                 float attenuation = LIGHT_ATTENUATION(i);
-                float node_4820 = max(0,dot(lightDirection,i.normalDir));
-                float node_2099 = max(0,dot(lightDirection,viewReflectDirection));
-                float3 node_7164 = (_LightColor0.rgb*(attenuation*(node_4820+node_2099)*0.5));
-                float3 finalColor = node_7164;
+                float3 finalColor = (_LightColor0.rgb*(attenuation*(max(0,dot(lightDirection,i.normalDir))+max(0,dot(lightDirection,viewReflectDirection)))*0.5));
                 return fixed4(finalColor * 1,0);
             }
             ENDCG
@@ -177,8 +168,7 @@ Shader "Shader Forge/19" {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
                 float4 node_8865 = _Time + _TimeEditor;
-                float node_9056 = (o.uv0.g-((_node_1631*2.0)+(-1.0)));
-                float node_228 = saturate((frac(node_8865.r)*node_9056));
+                float node_228 = saturate((frac(node_8865.r)*(o.uv0.g-((_node_1631*2.0)+(-1.0)))));
                 v.vertex.xyz += float3(node_228,node_228,node_228);
                 o.pos = mul(UNITY_MATRIX_MVP, v.vertex );
                 TRANSFER_SHADOW_CASTER(o)
